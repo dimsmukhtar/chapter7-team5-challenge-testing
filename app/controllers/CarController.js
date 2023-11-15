@@ -99,7 +99,7 @@ class CarController extends ApplicationController {
     try {
       const { name, price, size, image } = req.body;
 
-      const car = this.carModel.update(
+      this.carModel.update(
         {
           name,
           price,
@@ -132,10 +132,6 @@ class CarController extends ApplicationController {
     const car = await this.carModel.destroy({ where: { id: req.params.id } });
     res.status(204).end();
   };
-
-  getCarFromRequest(req) {
-    return this.carModel.findByPk(req.params.id);
-  }
 
   getListQueryFromRequest(req) {
     const { size, availableAt } = req.query;
