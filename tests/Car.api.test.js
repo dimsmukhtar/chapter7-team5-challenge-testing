@@ -1,9 +1,9 @@
-const request = require("supertest")
-const app = require("../app")
+const request = require("supertest");
+const app = require("../app");
 // const baseURL = "http://localhost:8000"
-const dotenv = require("dotenv")
-const supertest = require("supertest")
-dotenv.config()
+const dotenv = require("dotenv");
+const supertest = require("supertest");
+dotenv.config();
 
 // describe("Dog", () => {
 //     it("should have name called 'Arnold'", () => {
@@ -26,40 +26,39 @@ dotenv.config()
 //     });
 // });
 
-let token = ""
-let tokenAdmin = ""
+let token = "";
+let tokenAdmin = "";
 
 beforeAll(async () => {
   const user = {
     email: "jordi@binar.co.id",
-    password: "123456"
-  }
-  const response = await supertest(app).post("/v1/auth/login").send(user)
-  token = response.body.accessToken
-})
+    password: "123456",
+  };
 
-beforeAll(async () => {
-  const user = {
+  const admin = {
     email: "imam@binar.co.id",
-    password: "123456"
-  }
-  const response = await supertest(app).post("/v1/auth/login").send(user)
-  tokenAdmin = response.body.accessToken
-})
+    password: "123456",
+  };
+
+  const response = await supertest(app).post("/v1/auth/login").send(user);
+  const adminResponse = await supertest(app).post("/v1/auth/login").send(admin);
+  token = response.body.accessToken;
+  tokenAdmin = adminResponse.body.accessToken;
+});
 
 describe("API get all cars", () => {
   it("success get all data cars", async () => {
-    const response = await request(app).get("/v1/cars")
-    expect(response.statusCode).toBe(200)
-  })
-})
+    const response = await request(app).get("/v1/cars");
+    expect(response.statusCode).toBe(200);
+  });
+});
 
 describe("API get car By ID", () => {
   it("success get data car", async () => {
-    const response = await request(app).get("/v1/cars/1")
-    expect(response.statusCode).toBe(200)
-  })
-})
+    const response = await request(app).get("/v1/cars/1");
+    expect(response.statusCode).toBe(200);
+  });
+});
 
 describe("API create car", () => {
   it("success create  car", async () => {
@@ -68,67 +67,67 @@ describe("API create car", () => {
       price: 1,
       size: "l",
       image: "dadadad",
-      isCurrentlyRented: false
-    }
+      isCurrentlyRented: false,
+    };
 
     const response = await request(app)
       .post("/v1/cars")
       .send(car)
-      .set("Authorization", `Bearer ${tokenAdmin}`)
-    expect(response.statusCode).toBe(201)
-  })
+      .set("Authorization", `Bearer ${tokenAdmin}`);
+    expect(response.statusCode).toBe(201);
+  });
   it("failed create  car", async () => {
     const car = {
       name: "test",
       price: 1,
       size: "l",
       image: "dadadad",
-      isCurrentlyRented: false
-    }
+      isCurrentlyRented: false,
+    };
 
     const response = await request(app)
       .post("/v1/cars")
       .send(car)
-      .set("Authorization", `Bearer ${token}`)
-    expect(response.statusCode).toBe(401)
-  })
-})
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.statusCode).toBe(401);
+  });
+});
 
 describe("API update car", () => {
   it("success update  car", async () => {
     const response = await request(app)
-      .put("/v1/cars/3")
+      .put("/v1/cars/385")
       .send({
         name: "updatetest",
         price: 182,
         size: "l",
-        image: "frepalestine"
+        image: "frepalestine",
       })
-      .set("Authorization", `Bearer ${tokenAdmin}`)
-    expect(response.statusCode).toBe(200)
-  })
+      .set("Authorization", `Bearer ${tokenAdmin}`);
+    expect(response.statusCode).toBe(200);
+  });
   it("failed update car", async () => {
     const car = {
       name: "test",
       price: 1,
       size: "l",
       image: "dadadad",
-      isCurrentlyRented: false
-    }
+      isCurrentlyRented: false,
+    };
 
     const response = await request(app)
-      .put("/v1/cars/193")
+      .put("/v1/cars/999")
       .send(car)
-      .set("Authorization", `Bearer ${token}`)
-    expect(response.statusCode).toBe(401)
-  })
-})
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.statusCode).toBe(401);
+  });
+});
 
 describe("API delete car", () => {
   it("success delete car", async () => {
     const response = await request(app)
-      .delete("/v1/cars/9")
-      .set("Authorization", `Bearer ${tokenAdmin}`)
-    expect(response.statusCode).toBe(204)
-  })
-})
+      .delete("/v1/cars/387")
+      .set("Authorization", `Bearer ${tokenAdmin}`);
+    expect(response.statusCode).toBe(204);
+  });
+});
