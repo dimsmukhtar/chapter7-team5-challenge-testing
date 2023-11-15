@@ -34,16 +34,17 @@ beforeAll(async () => {
     email: "jordi@binar.co.id",
     password: "123456",
   };
+  const response = await supertest(app).post("/v1/auth/login").send(user);
+  token = response.body.accessToken;
+});
 
-  const admin = {
+beforeAll(async () => {
+  const user = {
     email: "imam@binar.co.id",
     password: "123456",
   };
-
   const response = await supertest(app).post("/v1/auth/login").send(user);
-  const adminResponse = await supertest(app).post("/v1/auth/login").send(admin);
-  token = response.body.accessToken;
-  tokenAdmin = adminResponse.body.accessToken;
+  tokenAdmin = response.body.accessToken;
 });
 
 describe("API get all cars", () => {
@@ -96,7 +97,7 @@ describe("API create car", () => {
 describe("API update car", () => {
   it("success update  car", async () => {
     const response = await request(app)
-      .put("/v1/cars/385")
+      .put("/v1/cars/3")
       .send({
         name: "updatetest",
         price: 182,
@@ -116,7 +117,7 @@ describe("API update car", () => {
     };
 
     const response = await request(app)
-      .put("/v1/cars/999")
+      .put("/v1/cars/193")
       .send(car)
       .set("Authorization", `Bearer ${token}`);
     expect(response.statusCode).toBe(401);
@@ -126,7 +127,7 @@ describe("API update car", () => {
 describe("API delete car", () => {
   it("success delete car", async () => {
     const response = await request(app)
-      .delete("/v1/cars/387")
+      .delete("/v1/cars/9")
       .set("Authorization", `Bearer ${tokenAdmin}`);
     expect(response.statusCode).toBe(204);
   });

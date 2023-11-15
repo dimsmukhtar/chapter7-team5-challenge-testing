@@ -8,7 +8,7 @@ let token = "";
 
 beforeAll(async () => {
   const user = {
-    email: "jordi@binar.co.id",
+    email: "jordi7@binar.co.id",
     password: "123456",
   };
   const response = await supertest(app).post("/v1/auth/login").send(user);
@@ -18,7 +18,7 @@ beforeAll(async () => {
 describe("API Login", () => {
   it("success login", async () => {
     const user = {
-      email: "jordi@binar.co.id",
+      email: "jordi7@binar.co.id",
       password: "123456",
     };
     const response = await request(app).post("/v1/auth/login").send(user);
@@ -48,7 +48,7 @@ describe("API Register", () => {
   it("success register", async () => {
     const user = {
       name: "jordi",
-      email: "jordi12@binar.co.id",
+      email: "jordi7@binar.co.id",
       password: "123456",
       roleId: 2,
     };
