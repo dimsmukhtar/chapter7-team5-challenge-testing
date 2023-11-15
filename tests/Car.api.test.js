@@ -96,17 +96,20 @@ describe("API create car", () => {
 
 describe("API update car", () => {
   it("success update  car", async () => {
+    const car = {
+      name: "updatetest",
+      price: 182,
+      size: "l",
+      image: "frepalestine",
+      isCurrentlyRented: false,
+    };
     const response = await request(app)
-      .put("/v1/cars/3")
-      .send({
-        name: "updatetest",
-        price: 182,
-        size: "l",
-        image: "frepalestine",
-      })
+      .put("/v1/cars/392")
+      .send(car)
       .set("Authorization", `Bearer ${tokenAdmin}`);
     expect(response.statusCode).toBe(200);
   });
+
   it("failed update car", async () => {
     const car = {
       name: "test",
@@ -127,7 +130,7 @@ describe("API update car", () => {
 describe("API delete car", () => {
   it("success delete car", async () => {
     const response = await request(app)
-      .delete("/v1/cars/9")
+      .delete("/v1/cars/391")
       .set("Authorization", `Bearer ${tokenAdmin}`);
     expect(response.statusCode).toBe(204);
   });
