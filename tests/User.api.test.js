@@ -48,7 +48,7 @@ describe("API Register", () => {
   it("success register", async () => {
     const user = {
       name: "jordi",
-      email: "jordi15@binar.co.id",
+      email: "jordi26@binar.co.id",
       password: "123456",
       roleId: 2,
     };

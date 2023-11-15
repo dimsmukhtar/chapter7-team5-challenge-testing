@@ -31,7 +31,7 @@ let tokenAdmin = "";
 
 beforeAll(async () => {
   const user = {
-    email: "jordi@binar.co.id",
+    email: "jordi7@binar.co.id",
     password: "123456",
   };
   const response = await supertest(app).post("/v1/auth/login").send(user);
@@ -101,10 +101,10 @@ describe("API update car", () => {
       price: 182,
       size: "l",
       image: "frepalestine",
-      isCurrentlyRented: false,
     };
+
     const response = await request(app)
-      .put("/v1/cars/392")
+      .put("/v1/cars/393")
       .send(car)
       .set("Authorization", `Bearer ${tokenAdmin}`);
     expect(response.statusCode).toBe(200);
@@ -130,8 +130,43 @@ describe("API update car", () => {
 describe("API delete car", () => {
   it("success delete car", async () => {
     const response = await request(app)
-      .delete("/v1/cars/391")
+      .delete("/v1/cars/11")
       .set("Authorization", `Bearer ${tokenAdmin}`);
     expect(response.statusCode).toBe(204);
+  });
+
+  it("failed delete car", async () => {
+    const response = await request(app)
+      .delete("/v1/cars/9")
+      .set("Authorization", `Bearer ${tokenAdmin}`);
+    expect(response.statusCode).toBe(204);
+  });
+});
+
+describe("API rent car", () => {
+  it("success rent car", async () => {
+    const rent = {
+      rentStartedAt: new Date().toISOString(),
+    };
+
+    const response = await request(app)
+      .post("/v1/cars/289/rent")
+      .send(rent)
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.statusCode).toBe(201);
+  });
+});
+
+describe("random url", () => {
+  it("page not found", async () => {
+    const response = await request(app).get("/v1/engine");
+    expect(response.statusCode).toBe(404);
+  });
+});
+
+describe("root url", () => {
+  it("page not found", async () => {
+    const response = await request(app).get("/");
+    expect(response.statusCode).toBe(200);
   });
 });
